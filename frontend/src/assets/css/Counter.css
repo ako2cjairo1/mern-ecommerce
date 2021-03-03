@@ -1,0 +1,30 @@
+:root {
+	--transition: all 0.3s ease-out;
+}
+
+.qty__container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	min-width: 110px;
+	padding-right: 0.2rem;
+}
+
+.qty__container div button {
+	width: 25px;
+	margin: 1px;
+	padding: 2px 5px;
+	background: #f4f4f4;
+	color: #171717;
+	outline: none;
+	border: 1px solid #171717;
+	cursor: pointer;
+	transition: var(--transition);
+}
+
+.qty__container div button:hover {
+	opacity: 0.9;
+	background: #171717;
+	color: #f4f4f4;
+	transition: var(--transition);
+}
