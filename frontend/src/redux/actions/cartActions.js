@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as actionTypes from '../../constants/cartConstants';
 
+// action creators
 const addToCartAction = (cartItem) => {
 	return {
 		type: actionTypes.ADD_TO_CART,
@@ -20,10 +21,17 @@ const updateLocalStorage = (currentState) => {
 	localStorage.setItem('mern-ecommerce-cart', JSON.stringify(currentState));
 };
 
+// Async Actions
 const addToCart = (id, qty) => async (dispatch, getState) => {
 	try {
-		const { data } = await axios.get(`/api/products/${id}`);
-		const cartItem = { ...data, qty };
+		let cartItem = getState().cart.cartItems.find((item) => item._id === id);
+		cartItem = { ...cartItem, qty };
+
+		if (cartItem) {
+			// fetch product detail if not found in cartitems
+			const { data } = await axios.get(`/api/products/${id}`);
+			cartItem = { ...data, qty };
+		}
 
 		// update state with the new cartItem deets
 		dispatch(addToCartAction(cartItem));

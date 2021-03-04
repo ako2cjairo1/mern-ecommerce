@@ -17,6 +17,9 @@ export function HomeScreen() {
 	const { products, loading, error } = useSelector(
 		(state) => state.getProducts
 	);
+	const cartItems = useSelector((state) => state.cart.cartItems);
+
+	const isInCart = (id) => cartItems.find((cartItem) => cartItem._id === id);
 
 	if (loading) {
 		return <Spinner />;
@@ -35,7 +38,13 @@ export function HomeScreen() {
 
 			<div className='homescreen__products'>
 				{products.map((product) => {
-					return <Product key={product._id} {...product} />;
+					return (
+						<Product
+							key={product._id}
+							{...product}
+							isInCart={isInCart(product._id)}
+						/>
+					);
 				})}
 			</div>
 		</div>

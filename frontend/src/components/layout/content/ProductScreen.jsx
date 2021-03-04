@@ -4,6 +4,7 @@ import '../../../assets/css/ProductScreen.css';
 
 import { getProductDetail, addToCart } from '../../../redux/actions';
 import { Counter, Spinner } from '../../shared';
+import { InCurrency } from '../../../utils';
 
 export function ProductScreen({ match, history }) {
 	const dispatch = useDispatch();
@@ -18,7 +19,7 @@ export function ProductScreen({ match, history }) {
 
 		return product ? (
 			<div className='cart__warning'>
-				<span>You already have ({product.qty}) of this item in your cart.</span>
+				<span>You already have ({product.qty}) this in your cart.</span>
 			</div>
 		) : null;
 	};
@@ -28,6 +29,7 @@ export function ProductScreen({ match, history }) {
 		loading,
 		error,
 	} = useSelector((state) => state.getProductDetail);
+	const subtotalPrice = price * qty;
 
 	useEffect(() => {
 		// fetch details from API async
@@ -58,15 +60,15 @@ export function ProductScreen({ match, history }) {
 				</div>
 				<div className='left__info'>
 					<p className='left__name'>{name}</p>
-					<p>${price}</p>
+					<p>{InCurrency(price)}</p>
 					<p>{description}</p>
 				</div>
 			</div>
 			<div className='productscreen__right'>
 				<div className='right__info'>
 					<p>
-						Price:
-						<span>${price * qty}</span>
+						Subtotal Price:
+						<span>{InCurrency(subtotalPrice)}</span>
 					</p>
 					<p>
 						Status:

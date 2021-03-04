@@ -1,3 +1,9 @@
+:root {
+	--accent: darkgoldenrod;
+	--secondary: black;
+	--transition: all 0.3s ease-out;
+}
+
 .cartitem {
 	width: 100%;
 	padding: 1rem;
@@ -17,7 +23,7 @@
 }
 
 .cartItem__name:hover {
-	color: #dd219e;
+	color: var(--accent);
 }
 
 .cartitem__price {
@@ -38,7 +44,7 @@
 	outline: none;
 	border: 1px solid #171717;
 	cursor: pointer;
-	transition: all 0.3s ease-out;
+	transition: var(--transition);
 }
 
 .cartItem__deleteBtn:hover,
