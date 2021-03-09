@@ -8,6 +8,14 @@ import { InCurrency } from '../../../utils';
 
 export function ProductScreen({ match, history }) {
 	const dispatch = useDispatch();
+	const { isLogIn } = useSelector((state) => state.login);
+
+	useEffect(() => {
+		if (!isLogIn) {
+			history.push('/login');
+		}
+	}, [isLogIn, history]);
+
 	// local state(s)
 	const [qty, setQty] = useState(1);
 	const productId = match.params.id;
@@ -60,7 +68,9 @@ export function ProductScreen({ match, history }) {
 				</div>
 				<div className='left__info'>
 					<p className='left__name'>{name}</p>
-					<p>{InCurrency(price)}</p>
+					<p>
+						Price: <span className='left__price'>{InCurrency(price)}</span>
+					</p>
 					<p>{description}</p>
 				</div>
 			</div>
@@ -90,6 +100,7 @@ export function ProductScreen({ match, history }) {
 					{alreadyInCartItem()}
 					<p>
 						<button type='button' onClick={handleAddToCart}>
+							<i className='fas fa-shopping-cart cart__icon cart__animate'></i>
 							Add To Cart
 						</button>
 					</p>

@@ -24,6 +24,7 @@
 
 .cartItem__name:hover {
 	color: var(--accent);
+	transition: var(--transition);
 }
 
 .cartitem__price {
@@ -39,10 +40,12 @@
 
 .cartItem__deleteBtn {
 	padding: 2px 5px;
-	color: red;
+	color: #171717;
 	background: #f4f4f4;
 	outline: none;
 	border: 1px solid #171717;
+	border-radius: 12px;
+	font-size: 0.7rem;
 	cursor: pointer;
 	transition: var(--transition);
 }
@@ -50,8 +53,9 @@
 .cartItem__deleteBtn:hover,
 .carItem__deleteBtn:active,
 .carItem__deleteBtn:focus {
-	background: #171717;
-	transform: scale(1.2);
+	color: red;
+	border-color: red;
+	transition: var(--transition);
 }
 
 @media (max-width: 700px) {

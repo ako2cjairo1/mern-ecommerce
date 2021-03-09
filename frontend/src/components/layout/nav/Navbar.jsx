@@ -1,9 +1,13 @@
-import { Link } from 'react-router-dom';
 import '../../../assets/css/Navbar.css';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import { CartBadgeIcon } from '../../shared/CartBadgeIcon';
+import { LoginBadge } from '../../layout/login/LoginBadge';
 
 export default function Navbar({ click }) {
+	const { isLogIn } = useSelector((state) => state.login);
+
 	return (
 		<nav className='navbar'>
 			<div className='navbar__logo'>
@@ -13,13 +17,22 @@ export default function Navbar({ click }) {
 			</div>
 
 			<ul className='navbar__links'>
+				{isLogIn && (
+					<>
+						<li>
+							<Link to='/cart' className='cart__link'>
+								<CartBadgeIcon badgeStyle='cartlogo__badge' />
+							</Link>
+						</li>
+						<li>
+							<Link to='/'>Shop</Link>
+						</li>
+					</>
+				)}
 				<li>
-					<Link to='/cart' className='cart__link'>
-						<CartBadgeIcon badgeStyle='cartlogo__badge' />
+					<Link to='/login'>
+						<LoginBadge />
 					</Link>
-				</li>
-				<li>
-					<Link to='/'>Shop</Link>
 				</li>
 			</ul>
 

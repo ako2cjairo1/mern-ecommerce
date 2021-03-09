@@ -7,12 +7,17 @@ import { Product } from '../../feature';
 import { getProducts } from '../../../redux/actions';
 import { Spinner } from '../../shared';
 
-export function HomeScreen() {
+export function HomeScreen({ history }) {
 	const dispatch = useDispatch();
+	const { isLogIn } = useSelector((state) => state.login);
 
 	useEffect(() => {
-		dispatch(getProducts());
-	}, [dispatch]);
+		if (isLogIn) {
+			dispatch(getProducts());
+		} else {
+			history.push('/login');
+		}
+	}, [dispatch, isLogIn, history]);
 
 	const { products, loading, error } = useSelector(
 		(state) => state.getProducts

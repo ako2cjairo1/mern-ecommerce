@@ -11,7 +11,7 @@ export function CartItem({
 	handleRemove,
 }) {
 	return (
-		<div className='cartitem'>
+		<div className='cartitem animate'>
 			<div className='cartitem__image'>
 				<img src={imageUrl} alt={name} />
 			</div>
@@ -33,7 +33,8 @@ export function CartItem({
 			</div>
 
 			<button className='cartItem__deleteBtn' onClick={handleRemove}>
-				<i className='fas fa-trash'></i>
+				{/* <i className='fas fa-trash'></i> */}
+				delete
 			</button>
 		</div>
 	);

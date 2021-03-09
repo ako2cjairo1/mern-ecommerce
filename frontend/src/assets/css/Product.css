@@ -42,6 +42,10 @@
 	font-size: 0.8rem;
 }
 
+.info__price {
+	color: #b93921;
+}
+
 .info__button {
 	display: block;
 	text-decoration: none;

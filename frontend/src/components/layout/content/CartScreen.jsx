@@ -10,6 +10,12 @@ import { addToCart, removeFromCart } from '../../../redux/actions';
 
 export function CartScreen({ history }) {
 	const dispatch = useDispatch();
+	const { isLogIn } = useSelector((state) => state.login);
+
+	if (!isLogIn) {
+		history.push('/login');
+	}
+
 	const cartItems = useSelector((state) => state.cart.cartItems);
 
 	// SELECTORS

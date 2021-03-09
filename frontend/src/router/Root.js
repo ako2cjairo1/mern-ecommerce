@@ -16,6 +16,7 @@ import {
 	SideDrawer,
 } from '../components/layout/content';
 import { NotFoundScreen } from '../components/shared';
+import Login from '../components/layout/login/Login';
 
 export default function Root() {
 	const [sideToggle, setSideToggle] = useState(false);
@@ -31,6 +32,7 @@ export default function Root() {
 					<Switch>
 						<Route exact path='/' component={HomeScreen} />
 						<Route path='/cart' component={CartScreen} />
+						<Route path='/login' component={Login} />
 						<Route exact path='/product/:id' component={ProductScreen} />
 						<Route component={NotFoundScreen} />
 					</Switch>

@@ -17,10 +17,10 @@ export function Product({ _id, imageUrl, name, description, price, isInCart }) {
 			<div className='product__info'>
 				<p className='info__name'>{name}</p>
 				<p className='info__description'>{description}</p>
-				<p>{InCurrency(price, 'USD')}</p>
+				<p className='info__price'>{InCurrency(price)}</p>
 
 				<Link to={`/product/${_id}`} className='info__button'>
-					View
+					See details
 				</Link>
 			</div>
 		</div>
