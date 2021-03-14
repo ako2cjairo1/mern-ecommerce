@@ -18,22 +18,22 @@ export default function Navbar({ click }) {
 
 			<ul className='navbar__links'>
 				{isLogIn && (
-					<>
-						<li>
-							<Link to='/cart' className='cart__link'>
-								<CartBadgeIcon badgeStyle='cartlogo__badge' />
-							</Link>
-						</li>
-						<li>
-							<Link to='/'>Shop</Link>
-						</li>
-					</>
+					<li>
+						<Link to='/'>Shop</Link>
+					</li>
 				)}
 				<li>
 					<Link to='/login'>
 						<LoginBadge />
 					</Link>
 				</li>
+				{isLogIn && (
+					<li>
+						<Link to='/cart' className='cart__link'>
+							<CartBadgeIcon badgeStyle='cartlogo__badge' />
+						</Link>
+					</li>
+				)}
 			</ul>
 
 			<div className='hamburger__menu' onClick={click}>

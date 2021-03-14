@@ -1,7 +1,10 @@
 import * as actionType from '../../constants/cartConstants';
 
+const cachedCartItems = () =>
+	JSON.parse(localStorage.getItem('mern-ecommerce-cart')) || { cartItems: [] };
+
 const initialState = {
-	cartItems: JSON.parse(localStorage.getItem('mern-ecommerce-cart')) || [],
+	cartItems: cachedCartItems().cartItems,
 };
 
 const cartReducer = (state = initialState, action) => {
@@ -54,7 +57,17 @@ const cartReducer = (state = initialState, action) => {
 					}),
 				};
 			}
-
+		case actionType.RESET_CART:
+			return {
+				...state,
+				cartItems: [],
+			};
+		case actionType.GET_CACHED_CART:
+			return {
+				...state,
+				cartItems: cachedCartItems().cartItems,
+			};
+		// TODO: implement checkout action
 		default:
 			return state;
 	}

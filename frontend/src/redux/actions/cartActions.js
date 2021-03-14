@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as actionTypes from '../../constants/cartConstants';
+import { updateUserCartLocalStorage } from '../../utils/updateLocalStorage';
 
 // action creators
 const addToCartAction = (cartItem) => {
@@ -16,29 +17,38 @@ const removeFromCartAction = (_id, qty) => {
 	};
 };
 
-const updateLocalStorage = (currentState) => {
-	// update localstorage for offline caching
-	localStorage.setItem('mern-ecommerce-cart', JSON.stringify(currentState));
+const resetCartAction = () => {
+	return {
+		type: actionTypes.RESET_CART,
+	};
+};
+
+const getCachedCartAction = () => {
+	return {
+		type: actionTypes.GET_CACHED_CART,
+	};
 };
 
 // Async Actions
 const addToCart = (id, qty) => async (dispatch, getState) => {
 	try {
 		let cartItem = getState().cart.cartItems.find((item) => item._id === id);
-		cartItem = { ...cartItem, qty };
 
-		if (cartItem) {
-			// fetch product detail if not found in cartitems
+		// fetch product detail if not found in cartitems yet
+		if (!cartItem) {
 			const { data } = await axios.get(`/api/products/${id}`);
 			cartItem = { ...data, qty };
+		} else {
+			// use cartItems details from global state
+			cartItem = { ...cartItem, qty };
 		}
 
 		// update state with the new cartItem deets
 		dispatch(addToCartAction(cartItem));
 		// update localstorage for offline caching
-		updateLocalStorage(getState().cart.cartItems);
+		updateUserCartLocalStorage(getState().cart.cartItems);
 	} catch (error) {
-		console.log('addToCart action ERROR', error);
+		alert(error.message);
 	}
 };
 
@@ -47,10 +57,24 @@ const removeFromCart = (id, qty) => async (dispatch, getState) => {
 		// remove item or decrement
 		dispatch(removeFromCartAction(id, qty));
 		// update localstorage for offline caching
-		updateLocalStorage(getState().cart.cartItems);
+		updateUserCartLocalStorage(getState().cart.cartItems);
 	} catch (error) {
-		console.log('removeFromCart action ERROR', error);
+		alert(error.message);
 	}
 };
 
-export { addToCart, removeFromCart };
+const checkOutCart = () => async (dispatch, getState) => {
+	dispatch(resetCartAction());
+	updateUserCartLocalStorage(getState().cart.cartItems);
+};
+
+const resetCart = () => async (dispatch, getState) => {
+	dispatch(resetCartAction());
+};
+
+const getCachedCart = () => async (dispatch, getState) => {
+	dispatch(getCachedCartAction());
+	updateUserCartLocalStorage(getState().cart.cartItems);
+};
+
+export { addToCart, removeFromCart, checkOutCart, resetCart, getCachedCart };

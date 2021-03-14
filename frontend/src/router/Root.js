@@ -11,6 +11,7 @@ import Navbar from '../components/layout/nav/Navbar';
 import {
 	HomeScreen,
 	CartScreen,
+	CheckoutScreen,
 	ProductScreen,
 	Backdrop,
 	SideDrawer,
@@ -32,6 +33,7 @@ export default function Root() {
 					<Switch>
 						<Route exact path='/' component={HomeScreen} />
 						<Route path='/cart' component={CartScreen} />
+						<Route path='/checkout' component={CheckoutScreen} />
 						<Route path='/login' component={Login} />
 						<Route exact path='/product/:id' component={ProductScreen} />
 						<Route component={NotFoundScreen} />

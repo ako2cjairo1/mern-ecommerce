@@ -1,14 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import '../../../assets/css/HomeScreen.css';
 import { Product } from '../../feature';
+import { CustomSnackbar } from '../../../components/shared';
 
 //import product action service
-import { getProducts } from '../../../redux/actions';
+import { addToCart, getProducts } from '../../../redux/actions';
 import { Spinner } from '../../shared';
 
 export function HomeScreen({ history }) {
 	const dispatch = useDispatch();
+	const [open, setOpen] = useState(false);
+	const [addToCartProduct, setAddToCartProduct] = useState('');
 	const { isLogIn } = useSelector((state) => state.login);
 
 	useEffect(() => {
@@ -23,8 +26,14 @@ export function HomeScreen({ history }) {
 		(state) => state.getProducts
 	);
 	const cartItems = useSelector((state) => state.cart.cartItems);
-
 	const isInCart = (id) => cartItems.find((cartItem) => cartItem._id === id);
+
+	const handleAddToCart = (productId, productName) => {
+		dispatch(addToCart(productId, 1));
+		setAddToCartProduct(productName);
+		setOpen(false);
+		setOpen(true);
+	};
 
 	if (loading) {
 		return <Spinner />;
@@ -40,7 +49,7 @@ export function HomeScreen({ history }) {
 	return (
 		<div className='homescreen'>
 			<h2 className='homescreen__title'>Latest Products</h2>
-
+			<CustomSnackbar open={open} setOpen={setOpen} name={addToCartProduct} />
 			<div className='homescreen__products'>
 				{products.map((product) => {
 					return (
@@ -48,6 +57,7 @@ export function HomeScreen({ history }) {
 							key={product._id}
 							{...product}
 							isInCart={isInCart(product._id)}
+							handleAddToCart={handleAddToCart}
 						/>
 					);
 				})}

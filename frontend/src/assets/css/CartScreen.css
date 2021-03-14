@@ -1,7 +1,8 @@
 .cartscreen {
 	display: flex;
 	max-width: 1300px;
-	margin: 2rem auto;
+	margin: 1rem auto;
+	margin-top: 120px;
 }
 
 .cartscreen h2 {
@@ -20,6 +21,7 @@
 	background: #fff;
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 	height: fit-content;
+	margin-top: 63px;
 }
 
 .cartscreen__right div {

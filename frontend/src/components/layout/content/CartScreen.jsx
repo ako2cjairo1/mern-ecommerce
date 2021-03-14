@@ -31,10 +31,7 @@ export function CartScreen({ history }) {
 	const incrementHandler = (id) => dispatch(addToCart(id, 1));
 	const decrementHandler = (id) => dispatch(removeFromCart(id, 1));
 	const removeHandler = (id, qty) => dispatch(removeFromCart(id, qty));
-	const handleCheckOut = () => {
-		alert('TODO: handle Checkout feature.');
-		history.push('/');
-	};
+	const handleCheckOut = () => history.push('/checkout');
 
 	return (
 		<div className='cartscreen'>
@@ -69,8 +66,11 @@ export function CartScreen({ history }) {
 			{countTotalItems > 0 && (
 				<div className='cartscreen__right'>
 					<div className='cartscreen__info'>
-						<p>Subtotal ({countTotalItems} item(s))</p>
-						<p>{InCurrency(countSubTotalAmount)}</p>
+						<h4>
+							Subtotal ({countTotalItems}{' '}
+							{countTotalItems > 1 ? 'items' : 'item'})
+						</h4>
+						<h3 className='info__price'>{InCurrency(countSubTotalAmount)}</h3>
 					</div>
 					<div>
 						<button onClick={handleCheckOut}>Proceed To Checkout</button>

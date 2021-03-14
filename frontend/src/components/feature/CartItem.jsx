@@ -13,11 +13,16 @@ export function CartItem({
 	return (
 		<div className='cartitem animate'>
 			<div className='cartitem__image'>
-				<img src={imageUrl} alt={name} />
+				<img src={imageUrl} alt={name} loading='lazy' />
 			</div>
 			<Link to={`/product/${id}`} className='cartItem__name'>
 				<p>{name}</p>
-				<p style={{ fontSize: '0.7rem', textAlign: 'justify' }}>
+				<p
+					style={{
+						fontSize: '0.7rem',
+						textAlign: 'justify',
+						lineHeight: '1.3em',
+					}}>
 					{description}
 				</p>
 			</Link>
@@ -25,6 +30,7 @@ export function CartItem({
 				<p>{InCurrency(price)}</p>
 				<span>x</span>
 				<Counter
+					variant='left'
 					qty={qty}
 					countInStock={countInStock}
 					handleIncrement={handleIncrement}

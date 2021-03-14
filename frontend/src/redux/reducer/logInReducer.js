@@ -1,8 +1,13 @@
-const { LOG_IN, LOG_OUT } = require('../../constants/loginConstants');
+import { LOG_IN, LOG_OUT } from '../../constants/loginConstants';
 
-const initialState = {
+const cachedUser = JSON.parse(localStorage.getItem('mern-ecommerce-cart')) || {
 	isLogIn: false,
 	user: null,
+};
+
+const initialState = {
+	isLogIn: cachedUser.isLogIn,
+	user: cachedUser.user,
 };
 
 export const logInReducer = (state = initialState, action) => {

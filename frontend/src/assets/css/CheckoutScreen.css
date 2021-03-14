@@ -1,0 +1,32 @@
+:root {
+	--accent: darkgoldenrod;
+	--secondary: black;
+	--transition: all 1s ease-out;
+}
+
+.checkout {
+	padding: 24px;
+	margin-top: 20px;
+	margin-bottom: 50px;
+}
+
+.mt {
+	margin-top: 120px;
+}
+
+.action-buttons {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 20px;
+}
+
+.action-buttons button {
+	margin-left: 10px;
+}
+
+.horizontal_line {
+	border-color: darkgray;
+	border-top-style: solid;
+	border-top-width: 1px;
+	margin: 10px 0;
+}

@@ -2,7 +2,7 @@
 	--transition: all 0.3s ease-out;
 }
 
-.qty__container {
+.qty-container {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -10,10 +10,9 @@
 	padding-right: 0.2rem;
 }
 
-.qty__container div button {
-	width: 25px;
+.qty-container div button {
 	margin: 1px;
-	padding: 2px 5px;
+	padding: 0 5px;
 	background: #f4f4f4;
 	color: #171717;
 	outline: none;
@@ -22,9 +21,22 @@
 	transition: var(--transition);
 }
 
-.qty__container div button:hover {
+.qty-container div button:hover:enabled {
 	opacity: 0.9;
 	background: #171717;
 	color: #f4f4f4;
 	transition: var(--transition);
+}
+
+.qty-container div button:disabled {
+	opacity: 0.9;
+	border-color: lightgray;
+	color: lightgray;
+	cursor: default;
+	transition: var(--transition);
+}
+
+.qty-btn-container {
+	display: flex;
+	width: 100%;
 }
