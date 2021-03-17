@@ -1,6 +1,7 @@
 import { LOG_IN, LOG_OUT } from '../../constants/loginConstants';
+import { LOCAL_STORAGE_KEY } from '../../constants/globalConstants';
 
-const cachedUser = JSON.parse(localStorage.getItem('mern-ecommerce-cart')) || {
+const cachedUser = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || {
 	isLogIn: false,
 	user: null,
 };

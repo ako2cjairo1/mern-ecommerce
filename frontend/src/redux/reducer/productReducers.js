@@ -4,6 +4,8 @@ const getProductsInitialState = {
 	products: [],
 	loading: false,
 	error: null,
+	isSearch: false,
+	searchCriteria: '',
 };
 
 const getProductsReducer = (state = getProductsInitialState, action) => {
@@ -26,6 +28,12 @@ const getProductsReducer = (state = getProductsInitialState, action) => {
 				products: [],
 				loading: false,
 				error: action.payload,
+			};
+		case actionTypes.SEARCH_PRODUCTS:
+			return {
+				...state,
+				isSearch: true,
+				searchCriteria: action.payload,
 			};
 		default:
 			return state;

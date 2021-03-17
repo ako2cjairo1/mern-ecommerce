@@ -15,17 +15,12 @@ export function CartItem({
 			<div className='cartitem__image'>
 				<img src={imageUrl} alt={name} loading='lazy' />
 			</div>
-			<Link to={`/product/${id}`} className='cartItem__name'>
-				<p>{name}</p>
-				<p
-					style={{
-						fontSize: '0.7rem',
-						textAlign: 'justify',
-						lineHeight: '1.3em',
-					}}>
-					{description}
-				</p>
-			</Link>
+			<div className='cartItem__name'>
+				<Link to={`/product/${id}`}>
+					<p>{name}</p>
+				</Link>
+				<p>{description}</p>
+			</div>
 			<div className='cartitem__price'>
 				<p>{InCurrency(price)}</p>
 				<span>x</span>
@@ -39,7 +34,6 @@ export function CartItem({
 			</div>
 
 			<button className='cartItem__deleteBtn' onClick={handleRemove}>
-				{/* <i className='fas fa-trash'></i> */}
 				delete
 			</button>
 		</div>

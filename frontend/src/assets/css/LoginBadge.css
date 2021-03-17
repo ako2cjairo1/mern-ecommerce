@@ -1,0 +1,12 @@
+.loginbadge {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start !important;
+	line-height: 1rem;
+	margin-top: -16px;
+}
+
+.loginbadge p {
+	font-size: 12px;
+	color: var(--accent);
+}

@@ -3,7 +3,7 @@ import '../../../assets/css/ProductScreen.css';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { getProductDetail, addToCart } from '../../../redux/actions';
+import { getProductDetailById, addToCart } from '../../../controllers';
 import { Counter, Spinner } from '../../shared';
 import { InCurrency } from '../../../utils';
 
@@ -18,7 +18,7 @@ export function ProductScreen({ match, history }) {
 	useEffect(() => {
 		if (isLogIn) {
 			// fetch details from API async
-			dispatch(getProductDetail(productId));
+			dispatch(getProductDetailById(productId));
 		} else {
 			history.push('/login');
 		}
@@ -68,7 +68,7 @@ export function ProductScreen({ match, history }) {
 					<p>
 						Price: <span className='left__price'>{InCurrency(price)}</span>
 					</p>
-					<p>{description}</p>
+					<p className='description'>{description}</p>
 				</div>
 			</div>
 			<div className='productscreen__right'>
@@ -99,17 +99,20 @@ export function ProductScreen({ match, history }) {
 							<span>You already have ({countInCart}) this in your cart.</span>
 						</div>
 					)}
-					{countInStock !== countInCart ? (
+					{countInStock > countInCart ? (
 						<p>
-							<button type='button' onClick={handleAddToCart}>
-								<i className='fas fa-shopping-cart cart__icon cart__animate'></i>
+							<button
+								type='button'
+								className='info__button'
+								onClick={handleAddToCart}>
+								<i className='fas fa-cart-plus cart__icon animate-cartroll'></i>
 								Add To Cart
 							</button>
 						</p>
 					) : (
 						<p>
 							<button type='button' onClick={() => history.push('/')}>
-								<i className='fas fa-store cart__animate'></i>
+								<i className='fas fa-store animate-cartroll'></i>
 								Continue Shopping
 							</button>
 						</p>

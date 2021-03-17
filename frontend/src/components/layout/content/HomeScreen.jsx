@@ -5,7 +5,7 @@ import { Product } from '../../feature';
 import { CustomSnackbar } from '../../../components/shared';
 
 //import product action service
-import { addToCart, getProducts } from '../../../redux/actions';
+import { addToCart, getProducts } from '../../../controllers';
 import { Spinner } from '../../shared';
 
 export function HomeScreen({ history }) {
@@ -27,6 +27,18 @@ export function HomeScreen({ history }) {
 	);
 	const cartItems = useSelector((state) => state.cart.cartItems);
 	const isInCart = (id) => cartItems.find((cartItem) => cartItem._id === id);
+	const isMaxInCart = (id) => {
+		const itemInCart = cartItems.find((cartItem) => cartItem._id === id);
+		let itemCountInCart = 0;
+
+		if (itemInCart) {
+			itemCountInCart = itemInCart.qty;
+		}
+		const quantityInStock = products.find((item) => item._id === id)
+			.countInStock;
+
+		return itemCountInCart >= quantityInStock;
+	};
 
 	const handleAddToCart = (productId, productName) => {
 		dispatch(addToCart(productId, 1));
@@ -53,12 +65,15 @@ export function HomeScreen({ history }) {
 			<div className='homescreen__products'>
 				{products.map((product) => {
 					return (
-						<Product
-							key={product._id}
-							{...product}
-							isInCart={isInCart(product._id)}
-							handleAddToCart={handleAddToCart}
-						/>
+						!isMaxInCart(product._id) && (
+							<Product
+								key={product._id}
+								{...product}
+								isMaxInCart={isMaxInCart(product._id)}
+								isInCart={isInCart(product._id)}
+								handleAddToCart={handleAddToCart}
+							/>
+						)
 					);
 				})}
 			</div>

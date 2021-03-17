@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const errorInitState = {
 	emailError: '',
@@ -20,24 +20,31 @@ export function useLoginForm(initialState, callback) {
 		}
 	};
 
-	validate.current = useCallback(() => {
+	const { email, password } = input;
+	validate.current = () => {
+		let validationErrors = {};
 		let isValidResult = true;
-		const { email, password } = input;
 
 		setError(errorInitState);
-
 		if (email.length <= 0) {
-			setError({ ...error, emailError: 'Email is required to log in.' });
+			validationErrors = { emailError: 'Email is required to log in.' };
 			isValidResult = false;
 		}
 
 		if (password.length <= 0) {
-			setError({ ...error, passwordError: 'Password is required to log in.' });
+			validationErrors = {
+				...validationErrors,
+				passwordError: 'Password is required to log in.',
+			};
 			isValidResult = false;
 		}
 
+		if (!isValidResult) {
+			setError({ ...validationErrors });
+		}
+
 		return isValidResult;
-	}, [input, error]);
+	};
 
 	useEffect(() => {
 		validate.current();

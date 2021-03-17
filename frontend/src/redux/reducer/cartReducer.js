@@ -1,7 +1,8 @@
 import * as actionType from '../../constants/cartConstants';
+import { LOCAL_STORAGE_KEY } from '../../constants/globalConstants';
 
 const cachedCartItems = () =>
-	JSON.parse(localStorage.getItem('mern-ecommerce-cart')) || { cartItems: [] };
+	JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || { cartItems: [] };
 
 const initialState = {
 	cartItems: cachedCartItems().cartItems,

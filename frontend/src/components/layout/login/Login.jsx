@@ -23,7 +23,7 @@ import {
 	logOutUser,
 	resetCart,
 	getCachedCart,
-} from '../../../redux/actions';
+} from '../../../controllers';
 
 const initialState = {
 	email: '',

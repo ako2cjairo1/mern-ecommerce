@@ -7,7 +7,8 @@ export function Counter({
 	handleDecrement,
 	variant,
 }) {
-	const itemQty = qty >= countInStock && qty <= 1 ? '0' : qty;
+	const itemQty =
+		qty >= countInStock && (countInStock === 0 || qty < 1) ? '0' : qty;
 
 	return (
 		<div className='qty-container'>

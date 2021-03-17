@@ -1,10 +1,18 @@
+import '../../../assets/css/LoginBadge.css';
 import { useSelector } from 'react-redux';
 
-function LoginBadge() {
+function LoginBadge({ isPlain }) {
 	const { user, isLogIn } = useSelector((state) => state.login);
 
 	return isLogIn ? (
-		<span className='loginbadge'>Hello, {user}</span>
+		isPlain ? (
+			<span className='loginbadge'>
+				<p>Hello, {user}</p>
+				<div>Logout</div>
+			</span>
+		) : (
+			<span>Logout</span>
+		)
 	) : (
 		'Sign in'
 	);

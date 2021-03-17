@@ -1,4 +1,3 @@
-import axios from 'axios';
 import * as actionTypes from '../../constants/productConstants';
 
 // Action creator(s)
@@ -42,33 +41,19 @@ const getProductDetailFailAction = (error) => {
 	};
 };
 
-// async action creator(s)
-const getProducts = () => async (dispatch) => {
-	try {
-		dispatch(getProductsRequestAction());
-
-		const { data: products } = await axios.get('/api/products');
-
-		if (products) {
-			dispatch(getProductsSuccessAction(products));
-		}
-	} catch (error) {
-		dispatch(getProductsFailAction(error.message));
-	}
+const searchProductAction = (searchCriteria) => {
+	return {
+		type: actionTypes.SEARCH_PRODUCTS,
+		payload: searchCriteria,
+	};
 };
 
-const getProductDetail = (id) => async (dispatch) => {
-	try {
-		dispatch(getProductDetailRequestAction());
-
-		const { data: product } = await axios.get(`/api/products/${id}`);
-
-		if (product) {
-			dispatch(getProductDetailSuccessAction(product));
-		}
-	} catch (error) {
-		dispatch(getProductDetailFailAction(error.message));
-	}
+export {
+	getProductsRequestAction,
+	getProductsSuccessAction,
+	getProductsFailAction,
+	getProductDetailRequestAction,
+	getProductDetailSuccessAction,
+	getProductDetailFailAction,
+	searchProductAction,
 };
-
-export { getProducts, getProductDetail };

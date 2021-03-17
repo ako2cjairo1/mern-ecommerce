@@ -7,7 +7,6 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 // invoke mongoDB connection
 connectMongoDB();
-
 // use json data formatting
 app.use(express.json());
 // configure data routing

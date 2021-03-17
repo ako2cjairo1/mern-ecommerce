@@ -9,6 +9,7 @@ export function Product({
 	name,
 	description,
 	price,
+	isMaxInCart,
 	isInCart,
 	handleAddToCart,
 }) {
@@ -29,21 +30,20 @@ export function Product({
 
 			<div className='product__info'>
 				<p className='info__name'>{name}</p>
-				<p className='info__description'>{description}</p>
 				<p className='info__price'>{InCurrency(price)}</p>
 
-				<p style={{ display: 'flex', justifyContent: 'space-between' }}>
-					<Link to={`/product/${_id}`} className='info__button'>
-						See details
-					</Link>
-					<button
-						type='button'
-						className='info__button'
-						onClick={() => handleAddToCart(_id, name)}>
-						<i className='fas fa-shopping-cart cart__icon'></i>
-						Add To Cart
-					</button>
-				</p>
+				<div className='info__button-container'>
+					<Link to={`/product/${_id}`}>See details</Link>
+					{!isMaxInCart && (
+						<button
+							type='button'
+							className='info__button'
+							onClick={() => handleAddToCart(_id, name)}>
+							<i className='fas fa-cart-plus cart__icon'></i>
+							Add To Cart
+						</button>
+					)}
+				</div>
 			</div>
 		</div>
 	);

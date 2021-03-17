@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const errorInitialState = {
 	cardNameError: '',
@@ -22,47 +22,55 @@ export function usePaymentForm(initialState) {
 		}
 	};
 
-	validate.current = useCallback(() => {
+	validate.current = () => {
+		let validationErrors = {};
 		let isValidData = true;
 		const { cardName, cardNumber, expDate, cvv } = input;
 
-		setPaymentFormError(errorInitialState);
-
 		if (cardName.length < 1) {
-			setPaymentFormError({
-				...paymentFormError,
-				cardNameError: 'Card name is required.',
-			});
+			validationErrors = { cardNameError: 'Card name is required.' };
+			isValidData = false;
+		}
+		if (cardNumber.length !== 16) {
+			validationErrors = {
+				...validationErrors,
+				cardNumberError: 'Invalid Card number (16 digits).',
+			};
 			isValidData = false;
 		}
 		if (cardNumber.length < 1) {
-			setPaymentFormError({
-				...paymentFormError,
+			validationErrors = {
+				...validationErrors,
 				cardNumberError: 'Card number is required.',
-			});
+			};
 			isValidData = false;
 		}
 		if (expDate.length < 1) {
-			setPaymentFormError({
-				...paymentFormError,
+			validationErrors = {
+				...validationErrors,
 				expDateError: 'Expiry date is required.',
-			});
+			};
+			isValidData = false;
+		}
+		if (cvv.length < 3) {
+			validationErrors = { ...validationErrors, cvvError: 'Invalid CVV.' };
 			isValidData = false;
 		}
 		if (cvv.length < 1) {
-			setPaymentFormError({
-				...paymentFormError,
-				cvvError: 'CVV is required.',
-			});
+			validationErrors = { ...validationErrors, cvvError: 'CVV is required.' };
 			isValidData = false;
 		}
 
 		if (isValidData) {
 			setPaymentFormError(null);
+		} else {
+			setPaymentFormError({
+				...validationErrors,
+			});
 		}
 
 		return isValidData;
-	}, [input, paymentFormError]);
+	};
 
 	useEffect(() => {
 		validate.current();

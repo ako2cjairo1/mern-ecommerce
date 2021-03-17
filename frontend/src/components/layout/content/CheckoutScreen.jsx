@@ -1,6 +1,6 @@
 import '../../../assets/css/CheckoutScreen.css';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Stepper from '@material-ui/core/Stepper';
@@ -12,7 +12,8 @@ import CreditCard from '@material-ui/icons/CreditCard';
 import { AddressForm, PaymentForm, ReviewCheckout } from '../../feature';
 
 import { useAddressForm, usePaymentForm } from '../../../hooks';
-import { checkOutCart } from '../../../redux/actions';
+import { checkOutCart } from '../../../controllers';
+import { InCurrency } from '../../../utils';
 
 const addressFormInitialState = {
 	firstName: '',
@@ -39,7 +40,8 @@ export function CheckoutScreen({ history }) {
 	const [countDownCounter, setCountDownCounter] = useState(30);
 	const [placingOrder, setPlacingOrder] = useState(false);
 
-	// hooks
+	const cartItems = useSelector((state) => state.cart.cartItems);
+	// custom hooks
 	const [
 		addressFormInput,
 		handleAddressFormInput,
@@ -53,6 +55,7 @@ export function CheckoutScreen({ history }) {
 	] = usePaymentForm(paymentFormInitialState);
 
 	// Event handlers
+	const handleBack = () => setActiveStep(activeStep - 1);
 	const handleNext = () => {
 		switch (activeStep) {
 			case 0:
@@ -74,34 +77,52 @@ export function CheckoutScreen({ history }) {
 				break;
 		}
 	};
-	const handleBack = () => setActiveStep(activeStep - 1);
-	const handleContinueShopping = () => history.push('/');
+	const handleContinueShopping = () => {
+		disposeTimeout();
+		history.push('/');
+	};
 
 	// Utility functions
 	const placeOrder = () => {
+		// const requestUpdates = cartItems.map((product) => ({
+		// 	id: product._id,
+		// 	qty: product.qty,
+		// }));
+
 		setPlacingOrder(true);
-		console.log('Processing payment... (simulation)');
+		console.log('(simulate!!!) Processing payment...');
 
 		setTimeout(() => {
 			setActiveStep(3);
 			setPlacingOrder(false);
 			countdownRedirection();
 			// simulate checkout - by clearing contents of cart
+			// dispatch(patchProducts(requestUpdates));
 			// in global state and local storage
 			dispatch(checkOutCart());
 		}, 5000);
 	};
+	let countdownInterval = useRef(null);
+	let countdownTimeout = useRef(null);
+	const disposeTimeout = () => {
+		clearInterval(countdownInterval.current);
+		clearTimeout(countdownTimeout.current);
+	};
 	const countdownRedirection = () => {
-		const countdownTimeout = setInterval(() => {
+		countdownInterval.current = setInterval(() => {
 			setCountDownCounter((counter) => counter - 1);
 		}, 1000);
 
-		const timeout = setTimeout(() => {
-			clearInterval(countdownTimeout);
-			clearTimeout(timeout);
+		countdownTimeout.current = setTimeout(() => {
+			disposeTimeout();
 			history.push('/');
 		}, 30000);
 	};
+
+	const subTotal = cartItems.reduce(
+		(total, item) => total + item.price * item.qty,
+		0
+	);
 
 	// conditional rendering of CheckoutScreen content (steps 1 - 3)
 	const steps = ['Shipping address', 'Payment details', 'Review your order'];
@@ -124,10 +145,17 @@ export function CheckoutScreen({ history }) {
 					/>
 				);
 			case 2:
+				const itemCount = cartItems.reduce(
+					(total, item) => total + item.qty,
+					0
+				);
 				return (
 					<ReviewCheckout
 						shippingInfo={addressFormInput}
 						paymentInfo={paymentFormInput}
+						cartItems={cartItems}
+						subTotal={subTotal}
+						itemCount={itemCount}
 					/>
 				);
 			case 3:
@@ -167,23 +195,34 @@ export function CheckoutScreen({ history }) {
 						<React.Fragment>
 							{getStepContent(activeStep)}
 							<div className='action-buttons'>
+								{activeStep === 0 && (
+									<Button
+										variant='outlined'
+										onClick={() => history.push('/cart')}>
+										Go back to Cart
+									</Button>
+								)}
 								{activeStep < steps.length ? (
 									<div>
-										{(activeStep !== 0 || !placingOrder) && (
-											<Button onClick={handleBack}>Back</Button>
+										{activeStep !== 0 && !placingOrder && (
+											<Button variant='outlined' onClick={handleBack}>
+												Back
+											</Button>
 										)}
 										<Button
 											variant='contained'
 											color='primary'
 											startIcon={
-												placingOrder && <CreditCard className='cart__animate' />
+												placingOrder && (
+													<CreditCard className='animate-circle' />
+												)
 											}
 											disabled={placingOrder}
 											onClick={handleNext}>
 											{activeStep === steps.length - 1
 												? placingOrder
 													? 'Processing...'
-													: 'Place order'
+													: `Pay ${InCurrency(subTotal)}`
 												: 'Next'}
 										</Button>
 									</div>

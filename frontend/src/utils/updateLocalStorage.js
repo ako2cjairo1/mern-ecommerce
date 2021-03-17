@@ -1,6 +1,8 @@
+import { LOCAL_STORAGE_KEY } from '../constants/globalConstants';
+
 const getLocalStorage = () => {
 	return (
-		JSON.parse(localStorage.getItem('mern-ecommerce-cart')) || {
+		JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || {
 			user: null,
 			isLogIn: false,
 			cartItems: [],
@@ -8,7 +10,7 @@ const getLocalStorage = () => {
 	);
 };
 
-export const updateUserLoginLocalStorage = (username, isLoggedIn) => {
+const updateUserLoginLocalStorage = (username, isLoggedIn) => {
 	const { user, cartItems: cachedCartItems } = getLocalStorage();
 	// check cached cart items for logged-in user
 	const userCartItems = user === username ? cachedCartItems : [];
@@ -20,10 +22,10 @@ export const updateUserLoginLocalStorage = (username, isLoggedIn) => {
 	};
 
 	// update cached cart items for currently logged-in user
-	localStorage.setItem('mern-ecommerce-cart', JSON.stringify(updatedUserCart));
+	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedUserCart));
 };
 
-export const updateUserCartLocalStorage = (cartItems) => {
+const updateUserCartLocalStorage = (cartItems) => {
 	const { isLogIn, user } = getLocalStorage();
 	const updatedUserCart = {
 		isLogIn,
@@ -31,5 +33,7 @@ export const updateUserCartLocalStorage = (cartItems) => {
 		cartItems,
 	};
 	// update cached cart items for currently logged-in user
-	localStorage.setItem('mern-ecommerce-cart', JSON.stringify(updatedUserCart));
+	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedUserCart));
 };
+
+export { updateUserLoginLocalStorage, updateUserCartLocalStorage };

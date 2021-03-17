@@ -71,19 +71,17 @@
 .right__info p button {
 	grid-column: 1/-1;
 	width: 100%;
-	padding: 10px 16px;
-	background: #171717;
-	color: #f4f4f4;
-	border: 1px solid #171717;
+	padding-top: 8px !important;
+	padding-bottom: 8px !important;
 	cursor: pointer;
 }
 
-.right__info p button:hover {
-	color: orange;
-	transition: var(--transition);
-}
-.cart__animate {
+.animate-cartroll {
 	animation: cartroll 0.6s linear;
+}
+
+.description {
+	font-family: Arial, sans-serif;
 }
 
 @keyframes cartroll {
@@ -110,6 +108,7 @@
 
 .cart__icon {
 	padding-right: 10px;
+	font-size: 17px;
 }
 
 .cart__warning {

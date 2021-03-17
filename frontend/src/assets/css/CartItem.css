@@ -22,9 +22,14 @@
 	color: #171717;
 }
 
-.cartItem__name:hover {
+.cartItem__name p:first-child:hover {
 	color: var(--accent);
 	transition: var(--transition);
+}
+
+.cartItem__name > p:last-child {
+	font-size: 0.7rem !important;
+	line-height: 1.5em !important;
 }
 
 .cartitem__price {

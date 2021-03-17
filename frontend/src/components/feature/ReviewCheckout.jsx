@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -7,15 +6,15 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 
 import { InCurrency } from '../../utils';
+import CreditCard from '@material-ui/icons/CreditCardTwoTone';
 
-export function ReviewCheckout({ shippingInfo, paymentInfo }) {
-	const cartItems = useSelector((state) => state.cart.cartItems);
-	const subTotal = cartItems.reduce(
-		(total, item) => total + item.price * item.qty,
-		0
-	);
-	const itemCount = cartItems.reduce((total, item) => total + item.qty, 0);
-
+export function ReviewCheckout({
+	shippingInfo,
+	paymentInfo,
+	cartItems,
+	subTotal,
+	itemCount,
+}) {
 	const {
 		firstName,
 		lastName,
@@ -87,26 +86,13 @@ export function ReviewCheckout({ shippingInfo, paymentInfo }) {
 					</Typography>
 					<Typography gutterBottom>{`${firstName} ${lastName}`}</Typography>
 					<Typography
-						gutterBottom>{`${address1} ${address2} ${city} ${state} ${zip} ${country}`}</Typography>
+						gutterBottom>{`${address1} ${address2} ${city} ${state} ${country} ${zip}`}</Typography>
 				</Grid>
 				<Grid item container direction='column' xs={12} sm={6}>
 					<Typography variant='h6' gutterBottom>
 						Payment details
 					</Typography>
 					<Grid container>
-						<React.Fragment>
-							<Grid item xs={5}>
-								<Typography gutterBottom>Card Type</Typography>
-							</Grid>
-							<Grid item xs={7}>
-								<Typography
-									variant='subtitle2'
-									style={{ textTransform: 'uppercase' }}
-									gutterBottom>
-									Visa
-								</Typography>
-							</Grid>
-						</React.Fragment>
 						<React.Fragment>
 							<Grid item xs={5}>
 								<Typography gutterBottom>Card Holder</Typography>
@@ -127,20 +113,39 @@ export function ReviewCheckout({ shippingInfo, paymentInfo }) {
 							<Grid item xs={7}>
 								<Typography
 									variant='subtitle2'
-									style={{ textTransform: 'uppercase' }}
+									style={{
+										textTransform: 'uppercase',
+										letterSpacing: '0.08rem',
+									}}
 									gutterBottom>
-									{cardNumber}
+									●●●● ●●●● ●●●●{' '}
+									{cardNumber.substring(
+										cardNumber.length - 4,
+										cardNumber.length
+									)}
 								</Typography>
 							</Grid>
 						</React.Fragment>
 						<React.Fragment>
 							<Grid item xs={5}>
-								<Typography gutterBottom>Expiry Date</Typography>
+								<Typography gutterBottom>Type, Exp. Date</Typography>
 							</Grid>
 							<Grid item xs={7}>
-								<Typography variant='subtitle2' gutterBottom>
-									{expDate}
-								</Typography>
+								<div
+									style={{ display: 'flex', justifyContent: 'space-between' }}>
+									<div style={{ display: 'flex' }}>
+										<CreditCard style={{ marginRight: '5px' }} />
+										<Typography
+											variant='subtitle2'
+											style={{ textTransform: 'uppercase', marginTop: '2px' }}
+											gutterBottom>
+											Visa
+										</Typography>
+									</div>
+									<Typography variant='subtitle2' gutterBottom>
+										{expDate}
+									</Typography>
+								</div>
 							</Grid>
 						</React.Fragment>
 					</Grid>

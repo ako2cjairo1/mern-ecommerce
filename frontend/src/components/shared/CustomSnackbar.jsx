@@ -4,8 +4,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import Slide from '@material-ui/core/Slide';
 
 export function CustomSnackbar({ open, setOpen, name }) {
-	const handleClose = (event, reason) => {
-		if (reason === 'clickaway') return;
+	const handleClose = () => {
 		setOpen(false);
 	};
 

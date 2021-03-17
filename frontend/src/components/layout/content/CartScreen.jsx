@@ -6,7 +6,7 @@ import { CartItem } from '../../feature';
 import { InCurrency } from '../../../utils';
 
 // import redux action creators
-import { addToCart, removeFromCart } from '../../../redux/actions';
+import { addToCart, removeFromCart } from '../../../controllers';
 
 export function CartScreen({ history }) {
 	const dispatch = useDispatch();
@@ -73,7 +73,15 @@ export function CartScreen({ history }) {
 						<h3 className='info__price'>{InCurrency(countSubTotalAmount)}</h3>
 					</div>
 					<div>
-						<button onClick={handleCheckOut}>Proceed To Checkout</button>
+						<button
+							type='button'
+							className='info__button cart__button'
+							onClick={handleCheckOut}>
+							<i
+								className='fas fa-cart-arrow-down cart__icon lg animate-circle'
+								fontSize='17px'></i>
+							Proceed to Checkout
+						</button>
 					</div>
 				</div>
 			)}

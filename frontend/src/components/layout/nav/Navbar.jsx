@@ -1,12 +1,29 @@
 import '../../../assets/css/Navbar.css';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { CartBadgeIcon } from '../../shared/CartBadgeIcon';
 import { LoginBadge } from '../../layout/login/LoginBadge';
 
+import { SearchBar } from '../../shared';
+
+import { searchProducts, getProducts } from '../../../controllers';
+
 export default function Navbar({ click }) {
+	const dispatch = useDispatch();
+	const [searchCriteria, setSearchCriteria] = useState('');
 	const { isLogIn } = useSelector((state) => state.login);
+
+	const handleSearch = (evt) => {
+		if (evt.key === 'Enter') {
+			if (searchCriteria) {
+				dispatch(searchProducts(searchCriteria));
+			} else {
+				dispatch(getProducts());
+			}
+		}
+	};
 
 	return (
 		<nav className='navbar'>
@@ -15,7 +32,13 @@ export default function Navbar({ click }) {
 					<h2>MERN eCommerce</h2>
 				</Link>
 			</div>
-
+			{isLogIn && (
+				<SearchBar
+					searchCriteria={searchCriteria}
+					handleInput={(e) => setSearchCriteria(e.target.value)}
+					handleSearch={handleSearch}
+				/>
+			)}
 			<ul className='navbar__links'>
 				{isLogIn && (
 					<li>
@@ -24,7 +47,7 @@ export default function Navbar({ click }) {
 				)}
 				<li>
 					<Link to='/login'>
-						<LoginBadge />
+						<LoginBadge isPlain />
 					</Link>
 				</li>
 				{isLogIn && (

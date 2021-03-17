@@ -17,10 +17,12 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	opacity: 0;
 }
 
 .sidedrawer.show {
 	transform: translateX(0);
+	opacity: 1;
 	transition: var(--transition);
 }
 
@@ -83,5 +85,10 @@
 @media (min-width: 960px) {
 	.sidedrawer {
 		display: none;
+	}
+}
+@media (max-width: 450px) {
+	.sidedrawer__links > li > a {
+		font-size: 1rem !important;
 	}
 }

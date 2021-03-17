@@ -23,6 +23,7 @@ export function PaymentForm({ input, handleInput, error }) {
 						name='cardName'
 						label={cardNameError ? cardNameError : 'Name on card'}
 						error={cardNameError ? true : false}
+						helperText='Exact card holder name on your card.'
 						fullWidth
 						autoComplete='cc-name'
 						value={cardName}
@@ -36,6 +37,7 @@ export function PaymentForm({ input, handleInput, error }) {
 						name='cardNumber'
 						label={cardNumberError ? cardNumberError : 'Card number'}
 						error={cardNumberError ? true : false}
+						helperText='Sixteen (16) digits on your card'
 						fullWidth
 						autoComplete='cc-number'
 						value={cardNumber}
@@ -49,6 +51,7 @@ export function PaymentForm({ input, handleInput, error }) {
 						name='expDate'
 						label={expDateError ? expDateError : 'Expiry date'}
 						error={expDateError ? true : false}
+						helperText='(MM/YYYY)'
 						fullWidth
 						autoComplete='cc-exp'
 						value={expDate}
